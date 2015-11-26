@@ -5,44 +5,25 @@ angular.module('poker', ['ngRoute'])
             requireBase: false
         });
     }])
-    .controller('PokerController', ['$window', '$scope', '$location', function ($window, $scope, $location) {
+    .controller('PokerController', function ($scope, $http) {
 		var pokerCtrl = this;
 		
-		var getId = function() {
-			return 1;
-		}
-		
-		var getStory = function () {
-			return 'How long will it take to finish the project?';
-		}
-		
-        this.id = getId();
+        $http.get('/login').success(function (data){ pokerCtrl.id = data.id;})
 		this.name = '';
-		this.story = getStory();
+		$http.get('/story').success(function (data){ pokerCtrl.story = data.story;})
 		this.estimate = NaN;
 		this.cards = ['0', '½', '1', '2', '3', '5', '8', '13', '21', '∞', '?'];
 		
-		this.sendEstimate = function (id, name, card) {console.log(name + ' with id ' + id + ' sends estimate: ' + card);};
-    }])
+		this.sendEstimate = function (id, name, card) {$http.get('/estimate/'+id + '/' +  card);};
+    })
 	.controller('PokerOverviewController', function ($scope, $http) {
-		var getCurrentPoll = function() {
-			return { 
-				/*"story": "How long will it take to finish the project?",*/
-				"poll": [
-				{"id": 1, "name": "Alexei", "estimate": "1"},
-				{"id": 2, "name": "Andrej", "estimate": "2"},
-				{"id": 3, "name": "SM", "estimate": "1"},
-				{"id": 4, "name": "OZe", "estimate": "5"},
-				{"id": 5, "name": "Remote", "estimate": "0"}]
-			};
-		}
-		
-		this.currentPoll = getCurrentPoll();
+		var overviewCtrl = this;
+		$http.get('/estimates').success(function (data){ overviewCtrl.currentPoll = data;})
 	})
 	.controller('PokerSmController', function ($scope, $http) {
 		this.story = '';
 		this.nextStory = function(story) {
-			console.log('proceeding to next story: ' + story);
+			$http.get('/estimate/'+story);
 		}
 	})
 	;

@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Planning Poker</title>
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="poker.css">
-    <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="../bower_components/angular/angular.js"></script>
-    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="angular-route/angular-route.js"></script>
     <script src="poker.js"></script>
 	<script type="text/ng-template" id="card.html">
         <div class="card" ng-click="pokerCtrl.sendEstimate(pokerCtrl.id, pokerCtrl.name, card);"><div class="front"><div class="corner">{{card}}</div><div class="suit suit0">{{card}}</div><div class="corner cornerBR flip">{{card}}</div></div></div>
@@ -54,7 +54,7 @@
 	<div class="row" >
 		<h2>Overview</h2>
 	</div>
-	<div class="row" ng-repeat="estimate in overviewCtrl.currentPoll.poll">
+	<div class="row" ng-repeat="estimate in overviewCtrl.currentPoll">
 		<ng-include src="'estimate.html'">
 		</ng-include>
 	</div>
