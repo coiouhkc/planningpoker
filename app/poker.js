@@ -1,14 +1,19 @@
-angular.module('poker', ['ngRoute'])
+angular.module('poker', ['ngRoute', 'ngCookies'])
     .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
     }])
-    .controller('PokerController', function ($scope, $http) {
+    .controller('PokerController', function ($scope, $http, $cookies) {
 		var pokerCtrl = this;
 		
-        $http.get('/login').success(function (data){ pokerCtrl.id = data.id;})
+		if (! $cookies.get('pokerId')) {
+			$http.get('/login').success(function (data){ pokerCtrl.id = data.id; $cookies.put('pokerId', data.id);})
+		} else {
+			pokerCtrl.id = $cookies.get('pokerId');
+		}
+		
 		this.name = '';
 		$http.get('/story').success(function (data){ pokerCtrl.story = data.story;})
 		this.estimate = NaN;

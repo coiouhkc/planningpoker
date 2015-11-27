@@ -15,23 +15,29 @@ app.get('/login', function (req, res) {
 	res.json({"id": currentId++});
 });
 
+app.get('/logout/:id', function (req, res) {
+	currentEstimates[req.params.id] = -1;
+});
+
 app.get('/story', function (req, res) {
 	res.json({"story": currentStory});
 });
 
 app.get('/estimate/:id/:estimate', function (req, res) {
 	currentEstimates[req.params.id] = req.params.estimate;
-	res.send('ok');
 });
 
 app.get('/estimate/:story', function (req, res) {
 	currentStory = req.params.story;
-	res.send('ok');
 });
 
 app.get('/estimates', function (req, res) {
 	var a = [];
-	for (id in currentEstimates) {a.push({"id": id, "estimate": currentEstimates[id]})}
+	for (id in currentEstimates) {
+		if (currentEstimates[id] != -1) {
+			a.push({"id": id, "estimate": currentEstimates[id]})
+		}
+	}
 	res.json(a);
 });
 
