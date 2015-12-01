@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="PlanningPokerApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Planning Poker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/stylesheets/poker.css">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
+    <script src="/javascripts/poker.js"></script>
+    <script src="/javascripts/service.js"></script>
+    <script src="/javascripts/controller.js"></script>
+    <script type="text/ng-template" id="card.html">
+        <div class="card" ng-click="pokerCtrl.sendEstimate(pokerCtrl.id, pokerCtrl.name, card);">
+            <div class="front">
+                <div class="corner">{{card}}</div>
+                <div class="suit suit0">{{card}}</div>
+                <div class="corner cornerBR flip">{{card}}</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="estimate.html">
+        <div class="estimate">
+            {{estimate.id}}, {{estimate.name}}, {{estimate.estimate}}.
+        </div>
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to Planning Poker</h1>
+</div>
+
+<div class="container">
+    <div class="col-lg-6" ng-controller="PokerController as pokerCtrl">
+        <div class="row">
+            <h2>Poll</h2>
+        </div>
+        <div class="row">
+            You are <input type="text" placeholder="Your name" ng-model="pokerCtrl.name"/> with id {{pokerCtrl.id}}.
+        </div>
+        <div class="row">
+            Currently estimating: {{pokerCtrl.story}}
+        </div>
+        <div class="row">
+            Your estmimate:
+        </div>
+        <div class="row">
+            <div ng-repeat="card in pokerCtrl.cards">
+                <ng-include src="'card.html'">
+                </ng-include>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6" ng-controller="PokerOverviewController as overviewCtrl">
+        <div class="row">
+            <h2>Overview</h2>
+        </div>
+        <div class="row" ng-repeat="estimate in overviewCtrl.currentPoll">
+            <ng-include src="'estimate.html'">
+            </ng-include>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6" ng-controller="PokerSmController as smCtrl">
+        <div class="row">
+            <h2>ScrumMaster</h2>
+        </div>
+        <div class="row">
+            <input type="text" placeholder="Next story" ng-model="smCtrl.story"/>
+            <button type="submit" class="btn btn-default" ng-click="smCtrl.nextStory(smCtrl.story)">Proceed</button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
